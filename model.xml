@@ -1,0 +1,93 @@
+<mujoco>
+	<option timestep="0.0001" integrator="RK4" gravity="0 0 0">
+		<flag sensornoise="disable" energy= "enable" contact= "disable"/>
+	</option>
+
+	<worldbody>
+    <light diffuse="1 1 1" pos="0 0 50" dir="0 0 -1"/>
+		<geom type="plane" size="10 10 10" rgba=".9 0 0 1"/>
+		<!-- <body name= "target" pos="0 0 2.2" euler="0 0 0"> -->
+			<!-- <joint name="target_joint" type="free"/> -->
+			<!-- <geom type="box" size="0.15 0.15 0.15" rgba="1 .9 0 1"/> -->
+			<!-- <inertial  pos="0 0 2.2" mass="10" diaginertia="0.01875 0.01875 0.01875" /> -->
+		<!-- </body> -->
+		<body name= "arm_link_0" pos="0 0 0.8" euler="0 0 0">
+			<joint name="arm_joint_1" type="free"/>
+			<geom type="box" size="0.1 0.1 0.4" rgba="0 .9 0 1"/>
+			<inertial  pos="0 0 0" mass="10" diaginertia="0.5667 0.5667 0.0667" />
+			<site name="sensor_at_COM" pos="0 0 0" euler="0 0 0" size=".1" type="sphere" rgba="0.3 0.2 0.1 0.3"/>
+			<body name= "arm_link_1" pos="0.3 0 0" euler="0 0 0">
+				<joint name="arm_joint_2" type="hinge" axis="0 0 1" pos="-0.2 0 0"/> 
+				<geom type="box" size="0.2 0.04 0.09" rgba="0 .9 .9 1"/>
+				<inertial  pos="0 0 0" mass="2" diaginertia="0.0065 0.0321 0.0277" />
+				<site name="sensor_at_1st_revjoint" pos="-0.2 0 0" euler="0 0 0" size=".1" type="sphere" rgba="0.3 0.2 0.1 0.3"/>
+				<body name= "arm_link_2" pos="0.4 0 0" euler="0 0 0">
+					<joint name="arm_joint_3" type="hinge" axis="0 0 1" pos="-0.2 0 0"/>  
+					<geom type="box" size="0.2 0.04 0.09" rgba=".9 .9 0 1"/>
+					<inertial  pos="0 0 0" mass="2" diaginertia="0.0065 0.0321 0.0277" />
+					<site name="sensor_at_2nd_revjoint" pos="-0.2 0 0" euler="0 0 0" size=".1" type="sphere" rgba="0.3 0.2 0.1 0.3"/>
+					<body name= "arm_link_3" pos="0.4 0 0" euler="0 0 0">
+						<joint name="arm_joint_4" type="hinge" axis="0 0 1" pos="-0.2 0 0"/>  
+						<geom type="box" size="0.2 0.04 0.09" rgba="0 1 0 1"/>
+						<inertial  pos="0 0 0" mass="2" diaginertia="0.0065 0.0321 0.0277" />
+						<site name="sensor_at_3rd_revjoint" pos="-0.2 0 0" euler="0 0 0" size=".1" type="sphere" rgba="0.3 0.2 0.1 0.3"/>
+						<body name= "arm_link_4" pos="0.4 0 0" euler="0 0 0">
+							<joint name="arm_joint_5" type="hinge" axis="0 0 1" pos="-0.2 0 0"/>  
+							<geom type="box" size="0.2 0.04 0.09" rgba="1 0.5 0 1"/>
+							<inertial  pos="0 0 0" mass="2" diaginertia="0.0065 0.0321 0.0277" />
+							<site name="sensor_at_4th_revjoint" pos="-0.2 0 0" euler="0 0 0" size=".1" type="sphere" rgba="0.3 0.2 0.1 0.3"/>
+							<site name="endeff" pos="0.2 0 0" euler="0 0 0" size=".1" type="sphere" rgba="0.3 0.2 0.1 0.3"/>
+						</body>
+					</body>
+				</body>
+			</body>
+		</body>
+	</worldbody>
+	<actuator>
+		<motor joint="arm_joint_2" name="torque1" gear="1" ctrllimited="true" ctrlrange="-10 10" />
+		<motor joint="arm_joint_3" name="torque2" gear="1" ctrllimited="true" ctrlrange="-10 10" />
+		<motor joint="arm_joint_4" name="torque3" gear="1" ctrllimited="true" ctrlrange="-10 10" />
+		<motor joint="arm_joint_5" name="torque4" gear="1" ctrllimited="true" ctrlrange="-10 10" />
+		<!-- <position joint="arm_joint_2" name="position_servo1" kp="0"/> -->
+		<!-- <velocity joint="arm_joint_2" name="velocity_servo1" kv="1"/> -->
+		<!-- <position joint="arm_joint_3" name="position_servo2" kp="0"/> -->
+		<!-- <velocity joint="arm_joint_3" name="velocity_servo2" kv="1"/> -->
+		<!-- <position joint="arm_joint_4" name="position_servo3" kp="0"/> -->
+		<!-- <velocity joint="arm_joint_4" name="velocity_servo3" kv="1"/> -->
+		<!-- <position joint="arm_joint_5" name="position_servo4" kp="0"/> -->
+		<!-- <velocity joint="arm_joint_5" name="velocity_servo4" kv="1"/> -->
+	</actuator>
+	<sensor>
+
+		<!-- <framelinacc objtype="site" objname="sensor_at_base_bottom"/> -->
+		<!-- <frameangacc objtype="site" objname="sensor_at_base_bottom"/> -->
+		<!-- <force site="endeff" noise="0.2"/> -->
+		<!-- <torque site="endeff" noise="0.5"/> -->
+		<!-- <framepos objtype="site" objname="endeff"/> -->
+		<!-- <framequat objtype="site" objname="endeff"/> -->
+
+
+        <torque name="torque_sensor_at_1st_revjoint" site="sensor_at_1st_revjoint"/>
+		<torque name="torque_sensor_at_2nd_revjoint" site="sensor_at_2nd_revjoint"/>
+		<torque name="torque_sensor_at_3rd_revjoint" site="sensor_at_3rd_revjoint"/>
+		<torque name="torque_sensor_at_4th_revjoint" site="sensor_at_4th_revjoint"/>
+
+		<jointpos name="relative_joint_angle_sensor_at_1st_revjoint" joint="arm_joint_2"/>
+		<jointpos name="relative_joint_angle_sensor_at_2nd_revjoint" joint="arm_joint_3"/>
+		<jointpos name="relative_joint_angle_sensor_at_3rd_revjoint" joint="arm_joint_4"/>
+		<jointpos name="relative_joint_angle_sensor_at_4th_revjoint" joint="arm_joint_5"/>
+
+		<jointvel name="relative_joint_velocity_sensor_at_1st_revjoint" joint="arm_joint_2"/>
+		<jointvel name="relative_joint_velocity_sensor_at_2nd_revjoint" joint="arm_joint_3"/>
+		<jointvel name="relative_joint_velocity_sensor_at_3rd_revjoint" joint="arm_joint_4"/>
+		<jointvel name="relative_joint_velocity_sensor_at_4th_revjoint" joint="arm_joint_5"/>
+		
+		<framepos objtype="site" objname="sensor_at_COM"/>
+		<framelinvel objtype="site" objname="sensor_at_COM"/>
+		<frameangvel objtype="site" objname="sensor_at_COM"/>
+		<framequat objtype="site" objname="sensor_at_COM"/>
+
+        <framepos objtype="site" objname="endeff"/>
+
+	</sensor>
+</mujoco>
